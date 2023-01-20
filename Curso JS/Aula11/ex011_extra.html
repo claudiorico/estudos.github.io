@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nacionalidade</title>
+</head>
+<body>
+    <p>Qual seu pais de Origem?</p>
+    <input type="text" name="txtpais" id="txtpais">
+    <input type="button" value="Verificar" onclick="Validar()">
+    <div id="res"></div>
+</body>
+<script>
+    function Validar(){
+        var txtpais = window.document.getElementById('txtpais').value
+        var res = window.document.querySelector('div#res')
+        
+        res.innerHTML = `<p>Sua Nacionalidade é: ${txtpais}</p>`
+        if(txtpais == 'Brasil'){
+            res.innerHTML += '<p>Você é Brasileiro</p>'
+        } else {
+            res.innerHTML += '<p>Você é Estrangerio</p>'
+        }
+    }
+</script>
+</html>
