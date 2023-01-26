@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela de Notas</title>
+</head>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+        padding: 10px;
+        text-align: center;
+    }
+
+    thead {
+        background-color: rgb(104, 103, 103);
+        color: white;
+    }
+    .medias {
+        background-color: rgb(104, 103, 103);
+        color: white;        
+    }
+
+    .disciplinas {
+        font-weight: normal;
+    }
+
+    .areas {
+        font-weight: 900;
+
+    }
+
+    input {
+        text-align: center;
+    }
+
+</style>
+<script>
+    function onChange(iv_diciplina) {
+
+        switch (iv_diciplina) {
+            case 'Mat':
+                var idNota1 = 'nota1Mat';
+                var idNota2 = 'nota2Mat';
+                var idMedia = 'mediaMat';
+                break;
+            case 'Fis':
+                var idNota1 = 'nota1Fis';
+                var idNota2 = 'nota2Fis';
+                var idMedia = 'mediaFis';
+                break;
+            case 'Qui':
+                var idNota1 = 'nota1Qui';
+                var idNota2 = 'nota2Qui';
+                var idMedia = 'mediaQui';
+                break;
+            case 'Bio':
+                var idNota1 = 'nota1Bio';
+                var idNota2 = 'nota2Bio';
+                var idMedia = 'mediaBio';
+                break;
+            case 'His':
+                var idNota1 = 'nota1His';
+                var idNota2 = 'nota2His';
+                var idMedia = 'mediaHis';
+                break;
+            case 'Geo':
+                var idNota1 = 'nota1Geo';
+                var idNota2 = 'nota2Geo';
+                var idMedia = 'mediaGeo';
+                break;
+            default:
+                break;
+        }
+
+        var nota1 = document.getElementById(idNota1);
+        var nota2 = document.getElementById(idNota2);
+        var res = document.getElementById(idMedia);
+        var iNota1 = validNumber(nota1.valueAsNumber);
+        var iNota2 = validNumber(nota2.valueAsNumber);
+
+        var mediaMat = (iNota1 + iNota2) / 2;
+
+        res.innerText = Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1 }).format(mediaMat);
+    }
+
+    function onCalcMedia() {
+
+        var mediaMat = document.getElementById('mediaMat');
+        var mediaFis = document.getElementById('mediaFis');
+        var mediaQui = document.getElementById('mediaQui');
+        var mediaBio = document.getElementById('mediaBio');
+
+        var mediaHis = document.getElementById('mediaHis');
+        var mediaGeo = document.getElementById('mediaGeo');
+
+        var mediaExatas = document.getElementById('mediaExatas');
+        var mediaHumanas = document.getElementById('mediaHumanas');
+
+        var imediaMat = validNumber(Number(mediaMat.innerHTML.replaceAll(",", ".")));
+        var imediaFis = validNumber(Number(mediaFis.innerHTML.replaceAll(",", ".")));
+        var imediaQui = validNumber(Number(mediaQui.innerHTML.replaceAll(",", ".")));
+        var imediaBio = validNumber(Number(mediaBio.innerHTML.replaceAll(",", ".")));
+
+        var imediaHis = validNumber(Number(mediaHis.innerHTML.replaceAll(",", ".")));
+        var imediaGeo = validNumber(Number(mediaGeo.innerHTML.replaceAll(",", ".")));
+
+        var imediaExatas = (imediaMat + imediaFis + imediaQui + imediaBio) / 4;
+
+        mediaExatas.innerText = Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1 }).format(imediaExatas);
+
+        var imediaHumanas = (imediaHis + imediaGeo) / 2;
+
+        mediaHumanas.innerText = Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1 }).format(imediaHumanas);
+    }
+
+    function validNumber(iv_value) {
+        if (!Number.isFinite(iv_value)) {
+            return 0;
+        }
+        return iv_value;
+    }
+</script>
+
+<body>
+
+    <table onchange="onCalcMedia()">
+        <thead>
+            <tr>
+                <th rowspan="2">Área</th>
+                <th rowspan="2">Disciplina</th>
+                <th colspan="2">Notas</th>
+                <th rowspan="2">Média</th>
+            </tr>
+            <tr>
+                <th>Nota 1</th>
+                <th>Nota 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th rowspan="4" class="areas">Exatas</th>
+                <th class="disciplinas">Matemática</th>
+                <td><input type="number" max=10.0 min=0.0 step=0.5 value=0.0 name="Nota1-Mat" id="nota1Mat"
+                        onchange="onChange('Mat')"></td>
+                <td><input type="number" max=10.0 min=0.0 step=0.5 value=0.0 name="Nota2-Mat" id="nota2Mat"
+                        onchange="onChange('Mat')"></td>
+                <td id="mediaMat">0,0</td>
+            </tr>
+            <tr>
+                <th class="disciplinas">Física</th>
+                <td><input type="number" max=10.0 min=0.0 step=0.5 value=0.0 name="Nota1-Fis" id="nota1Fis"
+                        onchange="onChange('Fis')"></td>
+                <td><input type="number" max=10.0 min=0.0 step=0.5 value=0.0 name="Nota2-Fis" id="nota2Fis"
+                        onchange="onChange('Fis')"></td>
+                <td id="mediaFis">0,0</td>
+            </tr>
+            <tr>
+                <th class="disciplinas">Química</th>
+                <td><input type="number" max=10.0 min=0.0 step=0.5 value=0.0 name="Nota1-Qui" id="nota1Qui"
+                        onchange="onChange('Qui')"></td>
+                <td><input type="number" max=10.0 min=0.0 step=0.5 value=0.0 name="Nota2-Qui" id="nota2Qui"
+                        onchange="onChange('Qui')"></td>
+                <td id="mediaQui">0,0</td>
+            </tr>
+            <tr>
+                <th class="disciplinas">Biologia</th>
+                <td><input type="number" max=10.0 min=0.0 step=0.5 value=0.0 name="Nota1-Bio" id="nota1Bio"
+                        onchange="onChange('Bio')"></td>
+                <td><input type="number" max=10.0 min=0.0 step=0.5 value=0.0 name="Nota2-Bio" id="nota2Bio"
+                        onchange="onChange('Bio')"></td>
+                <td id="mediaBio">0,0</td>
+            </tr>
+            <tr>
+                <th colspan="4" class="medias">Média de Exatas</th>
+                <td id="mediaExatas" class="medias">0,0</td>
+            </tr>
+            <tr>
+                <th rowspan="2" class="areas">Humanas</th>
+                <th class="disciplinas">História</th>
+                <td><input type="number" max=10.0 min=0.0 step=0.5 value=0.0 name="Nota1-His" id="nota1His"
+                        onchange="onChange('His')"></td>
+                <td><input type="number" max=10.0 min=0.0 step=0.5 value=0.0 name="Nota2-His" id="nota2His"
+                        onchange="onChange('His')"></td>
+                <td id="mediaHis">0,0</td>
+            </tr>
+            <tr>
+                <th class="disciplinas">Geografia</th>
+                <td><input type="number" max=10.0 min=0.0 step=0.5 value=0.0 name="Nota1-Geo" id="nota1Geo"
+                        onchange="onChange('Geo')"></td>
+                <td><input type="number" max=10.0 min=0.0 step=0.5 value=0.0 name="Nota2-Geo" id="nota2Geo"
+                        onchange="onChange('Geo')"></td>
+                <td id="mediaGeo">0,0</td>
+            </tr>
+            <tr>
+                <th colspan="4" class="medias">Média de Humanas</th>
+                <td id="mediaHumanas" class="medias">0,0</td>
+            </tr>
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>
