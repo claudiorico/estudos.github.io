@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load data from DB</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap5.min.css">
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
+
+    <script type="text/javascript" class="init">
+        $(document).ready(function () {
+            // Create a new DataTable object
+            table = $('#example').DataTable({
+                ajax: {
+                    url: 'http://localhost:3000/api/products',
+                    dataSrc: 'data'
+                },
+                columns: [
+                    { data: 'productid' },
+                    { data: 'productname' },
+                    { data: 'quantity' },
+                    { data: 'price' }
+                ]
+            })
+        });       
+    </script>
+</head>
+
+<body>
+    <div class="container" style="width:60%;">
+        <table id="example">
+            <thead>
+                <tr>
+                    <th scope="col">PRODUCT ID</th>
+                    <th scope="col">PRODUCT NAME</th>
+                    <th scope="col">QUANTITY</th>
+                    <th scope="col">PRICE</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+
+</html>
