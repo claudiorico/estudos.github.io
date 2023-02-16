@@ -2,7 +2,6 @@
 
 
 <html>
-
     <body>
         <a href="https://claudiorico.github.io/estudos.github.io/Curso%20HTML/d005/index.html" target="_self">Sobre Mim </a>
         <p>Exercício de Tabela com calculo em javascript: <a
@@ -18,6 +17,5 @@
                 target="_self">Mobiel First</a>
         </p>
     </body>
-
 </html>
 
