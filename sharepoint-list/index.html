@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharepoint</title>
+</head>
+<script src="//ajax.aspnetcdn.com/ajax/4.0/1/MicrosoftAjax.js" type="text/javascript">
+</script>
+<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js">
+</script>
+<script type="text/javascript" src="https://www.npmjs.com/package/jwt-decode"></script>
+<script type="text/javascript">
+    var hostweburl;
+
+    // Load the required SharePoint libraries.
+    $(document).ready(function () {
+
+
+        async function getUserData() {
+            try {
+                let userTokenEncoded = await OfficeRuntime.getAccessToken()
+                let userToken = jwt_decode(userTokenEncoded);
+                console.log(userToken.name);
+                console.log(userToken.preferred_username);
+                console.log(userToken.oid);
+            } catch (error) {
+                if(exception.code === 13003){
+
+                }else {
+
+                }
+            }
+        }
+
+        // Get the URI decoded URLs.
+        hostweburl =
+            decodeURIComponent(
+                getQueryStringParameter("https://ts.accenture.com/sites/RepositrioTreinamentos")
+            );
+
+        // The js files are in a URL in the form:
+        // web_url/_layouts/15/resource_file
+        var scriptbase = hostweburl + "/_layouts/15/";
+
+        // Load the js files and continue to
+        // the execOperation function.
+        $.getScript(scriptbase + "SP.Runtime.js",
+            function () {
+                $.getScript(scriptbase + "SP.js", function () {
+                    execOperation()
+                });
+            }
+        );
+    });
+
+    //var siteUrl = 'https://ts.accenture.com/sites/RepositrioTreinamentos';
+    var listweb = 'https://ts.accenture.com/sites/NaturaAD/';
+    var listName = 'E4F45BB6-3B43-4FAA-B6B2-65C4C0191745';
+    // Function to execute basic operations.
+    function execOperation() {
+        var clientContext = new SP.ClientContext(listweb);
+        var oList = clientContext.get_web().get_lists().getById(listName);
+        var camlQuery = new SP.CamlQuery();
+        camlQuery.set_viewXml('<View><Query><Where><Eq><FieldRef Name=\'AuthorId\'/>' +
+            '<Value Type=\'Edm.Int32\'>51</Value></Eq></Where ></Query > <RowLimit>10</RowLimit></View > ');
+        this.collListItem = oList.getItems(camlQuery);
+        clientContext.load(collListItem);
+
+        clientContext.executeQueryAsync(
+            Function.createDelegate(this, this.onQuerySucceeded),
+            Function.createDelegate(this, this.onQueryFailed)
+        );
+    }
+
+    function onQuerySucceeded() {
+        var listInfo = '';
+        var listEnumerator = collList.getEnumerator();
+
+        while (listEnumerator.moveNext()) {
+            var oList = listEnumerator.get_current();
+            listInfo += 'Title: ' + oList.get_title() +
+                ' ID: ' + oList.get_id().toString() + '\n';
+        }
+        alert(listInfo);
+    }
+
+    function onQueryFailed(sender, args) {
+        alert('Request failed. ' + args.get_message() +
+            '\n' + args.get_stackTrace());
+    }
+    /*      // Continue your program flow here.
+              var clientContext = new SP.ClientContext(siteUrl);
+              var oList = clientContext.get_web().get_lists().getByTitle(listName);
+              var camlQuery = new SP.CamlQuery();
+              camlQuery.set_viewXml('<View><Query><Where><Geq><FieldRef Name=\'ID\'/>' +
+                  '<Value Type=\'Number\'>1</Value></Geq></Where ></Query > <RowLimit>10</RowLimit></View > ');
+              this.collListItem = oList.getItems(camlQuery);
+              clientContext.load(collListItem);
+              clientContext.executeQueryAsync(Function.createDelegate(this, this.onQuerySucceeded),
+                  Function.createDelegate(this, this.onQueryFailed));
+  
+      }
+  
+      function onQuerySucceeded(sender, args)
+      {
+  
+  
+          var listItemInfo = '';
+          var listItemEnumerator = collListItem.getEnumerator();
+          while (listItemEnumerator.moveNext()) {
+              var oListItem = listItemEnumerator.get_current();
+              listItemInfo += '\nID: ' + oListItem.get_id() +
+                  '\nName: ' + oListItem.get_item('Name') +
+                  '\nPosition: ' + oListItem.get_item('Position') +
+                  '\nOffice: ' + oListItem.get_item('Office') +
+                  '\nSalary: ' + oListItem.get_item('Salary');
+          }
+          alert(listItemInfo.toString());
+      }
+      function onQueryFailed(sender, args)
+      {
+          alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+      }*/
+
+    // Function to retrieve a query string value.
+    // For production purposes you may want to use
+    // a library to handle the query string.
+    function getQueryStringParameter(paramToRetrieve) {
+        //var params =
+        //    document.URL.split("?")[1].split("&amp;");
+        //var strParams = "";
+        //for (var i = 0; i < params.length; i = i + 1) {
+        //   var singleParam = params[i].split("=");
+        //    if (singleParam[0] == paramToRetrieve)
+        //        return singleParam[1];
+        //}
+        return paramToRetrieve;
+    }
+</script>
+
+<body>
+
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country List</title>
+
+</head>
+
+<body>
+    <select name="country" id="icountry"></select>
+</body>
+<script type="text/javascript">
+    let dropdown = document.getElementById('icountry');
+    dropdown.length = 0;
+
+    let defaultOption = document.createElement('option');
+    defaultOption.text = 'Choose State/Province';
+
+    dropdown.add(defaultOption);
+    dropdown.selectedIndex = 0;
+
+    const url = 'https://www.universal-tutorial.com/api/countries';
+
+    
+    fetch(url, { 
+        
+        method: 'GET', 
+        headers: {
+            //'Content-Type': 'application/json; charset=utf-8',
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJjbGF1ZGlvcmljbzgxQGdtYWlsLmNvbSIsImFwaV90b2tlbiI6ImNvZ1lwSDlKbVhvOTItcm9WUWU4VG1oM1h1NVgyUWk5NXlRdk8wOHVhejVyN3A4RjBtaTdmUUEtcllZMjZDc1VtdWcifSwiZXhwIjoxNjc2OTQ4NzU4fQ.oUPsjZi6bN2HWIz5LpTpdsHYzp_xYovFKh-0kNnc2w4",
+            "Accept": "application/json"
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        } })
+        .then(
+            function (response) {
+                if (response.status !== 200) {
+                    console.warn('Looks like there was a problem. Status Code: ',
+                        response.status);
+                    return;
+                }
+
+                // Examine the text in the response  
+                response.json().then(function (data) {
+                    let option;
+
+                    for (let i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.text = data[i].country_name;
+                        option.value = data[i].country_short_name;
+                        dropdown.add(option);
+                    }
+                });
+            }
+        )
+        .catch(function (err) {
+            console.error('Fetch Error -', err);
+        });    
+
+        /*
+    // Example POST method implementation:
+    async function postData(url = '', data = {}) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'GET', // *GET, POST, PUT, DELETE, etc.
+            //mode: 'no-cors', // no-cors, *cors, same-origin
+            //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            //credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                //'Content-Type': 'application/json; charset=utf-8',
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJjbGF1ZGlvcmljbzgxQGdtYWlsLmNvbSIsImFwaV90b2tlbiI6ImNvZ1lwSDlKbVhvOTItcm9WUWU4VG1oM1h1NVgyUWk5NXlRdk8wOHVhejVyN3A4RjBtaTdmUUEtcllZMjZDc1VtdWcifSwiZXhwIjoxNjc2OTQ4NzU4fQ.oUPsjZi6bN2HWIz5LpTpdsHYzp_xYovFKh-0kNnc2w4",
+                "Accept": "application/json"
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            //redirect: 'follow', // manual, *follow, error
+            //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            //body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
+    postData('https://www.universal-tutorial.com/api/countries', { answer: 42 })
+        .then((data) => {
+            console.log(data); // JSON data parsed by `data.json()` call
+        });   
+        */         
+</script>
+
+</html>

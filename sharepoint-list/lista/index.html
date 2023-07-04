@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista</title>
+</head>
+
+<body>
+    <div>
+        <input type="button" id="btnSubmit" value="Get All Lists" />
+    </div>
+    <div id="divResults"></div>
+    <div id="divAllLists"></div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#btnSubmit").on("click", function () {
+            getItems();
+        });
+    });
+
+    function getItems() {
+
+        $.ajax({
+
+            async: true,  // Async by default is set to “true” load the script asynchronously
+            url: "https://ts.accenture.com/sites/NaturaAD/_api/web/lists/getbyid('E4F45BB6-3B43-4FAA-B6B2-65C4C0191745')/items",   // URL to fetch data from sharepoint list
+            method: "GET",  //Specifies the operation to fetch the list item
+            authority: "ts.accenture.com",
+            headers: {
+                "accept": "application/json;odata=verbose",   //It defines the Data format
+                "content-type": "application/json;odata=verbose"   //It defines the content type as JSON
+
+            },
+            success: function (data) {
+                data = data.d.results;
+                //Iterate the data
+                $.each(data, function (index, value) {
+
+                    var html = "<tr><td>" + value.EmployeeName + "</td><td>" + value.Designation + "</td><td>" + value.Email + "</td>< td > " + value.BloodGroup + "</td><td>" + value.CommunicationAddress + "</td><td>" + value.EmergencyContact + "</td><td>" + value.Mobile + "</td><td><a href='#' data-target='#ModalForUpdateEmployee' data-toggle='modal' onclick='edit(" + value.Id + ")'><img src='https://sharepointtechie.sharepoint.com/sites/automatedwiki/SiteAssets/CRUD/003-edit-document.png'></a></td><td><a href='#' onclick='deleteItem(" + value.Id + ");'><img src='https://sharepointtechie.sharepoint.com/sites/automatedwiki/SiteAssets/CRUD/001-delete.png'></a></td></tr > ";  
+                    $('.table tbody').append(html);  //Append the HTML
+
+                });
+
+                table = $('#subsiteList').DataTable();  //initialize the datatable
+            },
+            error: function (error) {
+                console.log(JSON.stringify(error));
+
+            }
+
+        })
+
+
+    } 
+</script>
+
+</html>
